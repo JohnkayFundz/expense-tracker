@@ -1,0 +1,26 @@
+const form = document.getElementById("transaction-form");
+const description = document.getElementById("description");
+const amount = document.getElementById("amount");
+const list = document.getElementById("transaction-list");
+const balance = document.getElementById("balance");
+
+let total = 0;
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const desc = description.value;
+    const amt = Number(amount.value);
+
+    total += amt;
+
+    balance.textContent = "$" + total;
+
+    const li = document.createElement("li");
+    li.textContent = `${desc}: $${amt}`;
+
+    list.appendChild(li);
+
+    description.value = "";
+    amount.value = "";
+});
