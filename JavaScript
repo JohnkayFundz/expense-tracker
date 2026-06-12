@@ -4,23 +4,54 @@ const amount = document.getElementById("amount");
 const list = document.getElementById("transaction-list");
 const balance = document.getElementById("balance");
 
-let total = 0;
+let transactions =
+  JSON.parse(localStorage.getItem("transactions")) || [];
 
-form.addEventListener("submit", function(e) {
-    e.preventDefault();
+function updateUI() {
+  list.innerHTML = "";
 
-    const desc = description.value;
-    const amt = Number(amount.value);
+  let total = 0;
 
-    total += amt;
-
-    balance.textContent = "$" + total;
+  transactions.forEach((transaction, index) => {
+    total += transaction.amount;
 
     const li = document.createElement("li");
-    li.textContent = `${desc}: $${amt}`;
+
+    li.innerHTML = `
+      ${transaction.description}: $${transaction.amount}
+      <button onclick="deleteTransaction(${index})">
+        Delete
+      </button>
+    `;
 
     list.appendChild(li);
+  });
 
-    description.value = "";
-    amount.value = "";
+  balance.textContent = "$" + total;
+
+  localStorage.setItem(
+    "transactions",
+    JSON.stringify(transactions)
+  );
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  transactions.push({
+    description: description.value,
+    amount: Number(amount.value)
+  });
+
+  updateUI();
+
+  description.value = "";
+  amount.value = "";
 });
+
+function deleteTransaction(index) {
+  transactions.splice(index, 1);
+  updateUI();
+}
+
+updateUI();
