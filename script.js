@@ -65,10 +65,10 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   transactions.push({
-  description: description.value,
-  amount: Number(amount.value),
-  date: new Date().toLocaleDateString()
-});
+    description: description.value,
+    amount: Number(amount.value),
+    date: new Date().toLocaleDateString()
+  });
 
   updateUI();
 
@@ -79,3 +79,6 @@ form.addEventListener("submit", (e) => {
 function deleteTransaction(index) {
   transactions.splice(index, 1);
   updateUI();
+}
+
+updateUI();
