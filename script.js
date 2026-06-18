@@ -66,6 +66,6 @@ function deleteTransaction(index) {
   transactions.splice(index, 1);
   updateUI();
 }
-
+displayTransactions();
 updateUI();
 ```
