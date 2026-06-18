@@ -28,12 +28,25 @@ function updateUI() {
 
     const li = document.createElement("li");
 
+if (transaction.amount > 0) {
+  li.classList.add("income-item");
+} else {
+  li.classList.add("expense-item");
+}
     li.innerHTML = `
-      ${transaction.description}: $${transaction.amount}
-      <button onclick="deleteTransaction(${index})">
-        Delete
-      </button>
-    `;
+  <div>
+    <strong>${transaction.description}</strong>
+    <br>
+    <small>${transaction.date}</small>
+  </div>
+
+  <div>
+    $${transaction.amount}
+    <button onclick="deleteTransaction(${index})">
+      Delete
+    </button>
+  </div>
+`;
 
     list.appendChild(li);
   });
@@ -52,9 +65,10 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   transactions.push({
-    description: description.value,
-    amount: Number(amount.value)
-  });
+  description: description.value,
+  amount: Number(amount.value),
+  date: new Date().toLocaleDateString()
+});
 
   updateUI();
 
@@ -65,4 +79,3 @@ form.addEventListener("submit", (e) => {
 function deleteTransaction(index) {
   transactions.splice(index, 1);
   updateUI();
-updateUI();
