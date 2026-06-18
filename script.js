@@ -33,11 +33,12 @@ if (transaction.amount > 0) {
 } else {
   li.classList.add("expense-item");
 }
-    li.innerHTML = `
+   li.innerHTML = `
   <div>
     <strong>${transaction.description}</strong>
     <br>
     <small>${transaction.date ?? new Date().toLocaleDateString()}</small>
+  </div>
 
   <div>
     $${transaction.amount}
@@ -77,6 +78,20 @@ form.addEventListener("submit", (e) => {
 
 function deleteTransaction(index) {
   transactions.splice(index, 1);
+  allBtn.addEventListener("click", () => {
+  currentFilter = "all";
+  updateUI();
+});
+
+incomeBtn.addEventListener("click", () => {
+  currentFilter = "income";
+  updateUI();
+});
+
+expenseBtn.addEventListener("click", () => {
+  currentFilter = "expense";
+  updateUI();
+});
   updateUI();
 }
 
