@@ -37,8 +37,7 @@ if (transaction.amount > 0) {
   <div>
     <strong>${transaction.description}</strong>
     <br>
-    <small>${transaction.date}</small>
-  </div>
+    <small>${transaction.date ?? new Date().toLocaleDateString()}</small>
 
   <div>
     $${transaction.amount}
@@ -79,3 +78,6 @@ form.addEventListener("submit", (e) => {
 function deleteTransaction(index) {
   transactions.splice(index, 1);
   updateUI();
+}
+
+updateUI();
