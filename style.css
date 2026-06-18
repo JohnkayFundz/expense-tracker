@@ -1,20 +1,31 @@
-```css #transaction-list {
-  list-style: none;
-  padding: 0;
+#transaction-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
 }
 
 #transaction-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  margin: 10px 0;
-  padding: 12px;
+    background: #2a2a2a;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
 
-  background: white;
-  border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}#transaction-list button {
+    width: auto;
+    padding: 6px 10px;
+    background: #ef4444;
+    margin-left: 10px;
+    font-size: 14px;
+}
 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+#transaction-list button:hover {
+    background: #dc2626;
+}
 }
 
 .income-item {
