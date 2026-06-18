@@ -79,19 +79,3 @@ form.addEventListener("submit", (e) => {
 function deleteTransaction(index) {
   transactions.splice(index, 1);
   updateUI();
-}
-});
-
-incomeBtn.addEventListener("click", () => {
-  currentFilter = "income";
-  updateUI();
-});
-
-expenseBtn.addEventListener("click", () => {
-  currentFilter = "expense";
-  updateUI();
-});
-  updateUI();
-}
-
-updateUI();
