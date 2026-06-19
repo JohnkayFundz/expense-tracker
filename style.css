@@ -5,15 +5,12 @@
   }
   100% {
     opacity: 1;
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
-}
-.app {
+}.app {
   position: relative;
   isolation: isolate;
-}
-
-.card,
+}.card,
 .panel {
   transition: all 0.25s ease;
   will-change: transform;
@@ -24,11 +21,11 @@
   transform: translateY(-5px);
   background: rgba(255,255,255,0.03);
   box-shadow:
-    0 15px 40px rgba(0,0,0,0.3),
+    0 18px 40px rgba(0,0,0,0.3),
     0 0 0 1px rgba(59,130,246,0.15);
-}
+}.sidebar {
+  width: 260px;
 
-.sidebar {
   background:
     linear-gradient(
       to bottom,
@@ -37,17 +34,19 @@
     );
 
   backdrop-filter: blur(22px);
-}
 
-* {
+  padding: 20px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.03),
+    0 0 80px rgba(0,0,0,0.45);
+}* {
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-.card,
-.panel,
-button,
-input {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
