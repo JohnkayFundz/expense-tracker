@@ -5,122 +5,139 @@ const list = document.getElementById("transaction-list");
 const balance = document.getElementById("balance");
 const income = document.getElementById("income");
 const expense = document.getElementById("expense");
-const filter = document.getElementById("filter"); // add this in HTML
+const filter = document.getElementById("filter");
+const chartCanvas = document.getElementById("expenseChart");
 
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-
 let editId = null;
+let chart;
+
+const format = (num) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(num);
 
 function generateID() {
-  return Date.now();
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
+/* ---------- CHART ---------- */
+function renderChart(incomeTotal, expenseTotal) {
+  if (chart) chart.destroy();
+
+  chart = new Chart(chartCanvas, {
+    type: "doughnut",
+    data: {
+      labels: ["Income", "Expense"],
+      datasets: [
+        {
+          data: [incomeTotal, expenseTotal],
+          backgroundColor: ["#22c55e", "#ef4444"],
+          borderWidth: 0,
+        },
+      ],
+    },
+  });
+}
+
+/* ---------- UI ---------- */
 function updateUI() {
   list.innerHTML = "";
 
-  let total = 0;
   let incomeTotal = 0;
   let expenseTotal = 0;
 
   let filtered = transactions;
 
-  if (filter && filter.value === "income") {
-    filtered = transactions.filter(t => t.amount > 0);
-  } else if (filter && filter.value === "expense") {
-    filtered = transactions.filter(t => t.amount < 0);
+  if (filter?.value === "income") {
+    filtered = transactions.filter((t) => t.amount > 0);
+  } else if (filter?.value === "expense") {
+    filtered = transactions.filter((t) => t.amount < 0);
   }
 
-  filtered.forEach((transaction) => {
-    total += transaction.amount;
-
-    if (transaction.amount > 0) {
-      incomeTotal += transaction.amount;
-    } else {
-      expenseTotal += Math.abs(transaction.amount);
-    }
+  filtered.forEach((t) => {
+    if (t.amount > 0) incomeTotal += t.amount;
+    else expenseTotal += Math.abs(t.amount);
 
     const li = document.createElement("li");
-    li.className = transaction.amount > 0 ? "income-item" : "expense-item";
-
-    const sign = transaction.amount < 0 ? "-" : "+";
+    li.className = t.amount > 0 ? "income-item" : "expense-item";
 
     li.innerHTML = `
       <div>
-        <strong>${transaction.description}</strong><br>
-        <small>${transaction.date}</small>
+        <strong>${t.description}</strong><br>
+        <small>${t.date}</small>
       </div>
 
       <div>
-        ${sign}$${Math.abs(transaction.amount).toFixed(2)}
+        ${format(t.amount)}
 
-        <button class="edit-btn" data-id="${transaction.id}">Edit</button>
-        <button class="delete-btn" data-id="${transaction.id}">Delete</button>
+        <button class="edit-btn" data-id="${t.id}">Edit</button>
+        <button class="delete-btn" data-id="${t.id}">Delete</button>
       </div>
     `;
 
     list.appendChild(li);
   });
 
-  balance.textContent = "$" + total.toFixed(2);
-  income.textContent = incomeTotal.toFixed(2);
-  expense.textContent = expenseTotal.toFixed(2);
+  const balanceTotal = incomeTotal - expenseTotal;
+
+  balance.textContent = format(balanceTotal);
+  income.textContent = format(incomeTotal);
+  expense.textContent = format(expenseTotal);
+
+  renderChart(incomeTotal, expenseTotal);
 
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-/* ADD / UPDATE TRANSACTION */
+/* ---------- ADD / EDIT ---------- */
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const desc = description.value.trim();
-  const amountValue = parseFloat(amount.value);
+  const amt = parseFloat(amount.value);
 
-  if (!desc || isNaN(amountValue)) return;
+  if (!desc || isNaN(amt)) return;
 
   if (editId) {
-    transactions = transactions.map(t =>
-      t.id === editId
-        ? { ...t, description: desc, amount: amountValue }
-        : t
+    transactions = transactions.map((t) =>
+      t.id === editId ? { ...t, description: desc, amount: amt } : t
     );
     editId = null;
   } else {
     transactions.push({
       id: generateID(),
       description: desc,
-      amount: amountValue,
-      date: new Date().toLocaleDateString()
+      amount: amt,
+      date: new Date().toLocaleDateString(),
     });
   }
 
-  updateUI();
-
   description.value = "";
   amount.value = "";
+
+  updateUI();
 });
 
-/* CLICK EVENTS (DELETE + EDIT) */
+/* ---------- DELETE / EDIT ---------- */
 list.addEventListener("click", (e) => {
-  const id = Number(e.target.dataset.id);
+  const id = e.target.dataset.id;
 
   if (e.target.classList.contains("delete-btn")) {
-    transactions = transactions.filter(t => t.id !== id);
+    transactions = transactions.filter((t) => t.id !== id);
     updateUI();
   }
 
   if (e.target.classList.contains("edit-btn")) {
-    const tx = transactions.find(t => t.id === id);
-
+    const tx = transactions.find((t) => t.id === id);
     description.value = tx.description;
     amount.value = tx.amount;
-
     editId = id;
   }
 });
 
-/* FILTER */
-if (filter) {
-  filter.addEventListener("change", updateUI);
-}
+/* ---------- FILTER ---------- */
+filter?.addEventListener("change", updateUI);
 
 updateUI();
