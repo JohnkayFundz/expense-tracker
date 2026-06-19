@@ -1,29 +1,22 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #0b1220;
-  color: white;
-  -webkit-font-smoothing: antialiased;
-}
-
 .app {
-  display: flex;
-  height: 100vh;
-  font-family: Inter, system-ui;
+  position: relative;
+}
 
+/* soft animated glow background feel */
+.app::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(16,185,129,0.10), transparent 40%),
-    #0b1220;
+    radial-gradient(circle at 20% 20%, rgba(59,130,246,0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(16,185,129,0.06), transparent 45%);
+  pointer-events: none;
 }
 
 .sidebar {
   width: 260px;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
 
   padding: 20px;
   border-right: 1px solid rgba(255,255,255,0.06);
@@ -31,23 +24,36 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  box-shadow: 10px 0 40px rgba(0,0,0,0.3);
 }
 
 .main {
   flex: 1;
-  padding: 28px;
+  padding: 32px;
   overflow-y: auto;
 }
 
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+button, input, .card, .panel {
+  transition: all 0.2s ease;
+}
 
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+.card:hover, .panel:hover {
+  transform: translateY(-3px);
+}
 
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+.app-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.app-header p {
+  font-size: 13px;
+  color: #94a3b8;
 }
 
 .header-actions input {
@@ -55,33 +61,21 @@ body {
   border-radius: 10px;
 
   border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   color: white;
 
   outline: none;
-  transition: 0.2s ease;
 }
 
-.header-actions input:focus {
-  border-color: rgba(59,130,246,0.6);
-  background: rgba(255,255,255,0.06);
+.header-actions input::placeholder {
+  color: rgba(148,163,184,0.7);
 }
 
-.header-actions button {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border: none;
-
-  padding: 10px 14px;
-  border-radius: 10px;
-
-  color: white;
-  font-weight: 500;
-
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.header-actions button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(59,130,246,0.25);
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+  opacity: 0.03;
+  pointer-events: none;
 }
