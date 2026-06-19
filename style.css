@@ -13,13 +13,13 @@
     padding: 15px;
     margin-bottom: 12px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #transaction-list li:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
 }
 
 /* INCOME / EXPENSE */
@@ -35,12 +35,12 @@
 #transaction-list button {
     width: auto;
     padding: 6px 10px;
+    margin-left: 10px;
     background: #ef4444;
     color: white;
-    margin-left: 10px;
-    font-size: 14px;
-    border-radius: 6px;
     border: none;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -48,4 +48,28 @@
 #transaction-list button:hover {
     background: #dc2626;
     transform: scale(1.05);
+}
+
+.income-item .amount {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.expense-item .amount {
+    color: #ef4444;
+    font-weight: bold;
+}
+#transaction-list li {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.income-item:hover {
+    box-shadow: 0 6px 18px rgba(34, 197, 94, 0.15);
+}
+
+.expense-item:hover {
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.15);
+}#transaction-list button:active {
+    transform: scale(0.95);
+}#transaction-list button:active {
+    transform: scale(0.95);
 }
