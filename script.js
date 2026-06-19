@@ -4,16 +4,13 @@ list.addEventListener("click", (e) => {
 
   const id = button.dataset.id;
 
-  const isDelete = button.classList.contains("delete-btn");
-  const isEdit = button.classList.contains("edit-btn");
-
-  if (isDelete) {
+  if (button.classList.contains("delete-btn")) {
     transactions = transactions.filter((t) => t.id !== id);
     updateUI();
     return;
   }
 
-  if (isEdit) {
+  if (button.classList.contains("edit-btn")) {
     const tx = transactions.find((t) => t.id === id);
     if (!tx) return;
 
@@ -21,4 +18,4 @@ list.addEventListener("click", (e) => {
     amount.value = tx.amount;
     editId = id;
   }
-});
+});description.focus();
