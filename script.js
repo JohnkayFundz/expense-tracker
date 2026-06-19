@@ -4,12 +4,16 @@ list.addEventListener("click", (e) => {
 
   const id = button.dataset.id;
 
-  if (button.classList.contains("delete-btn")) {
+  const isDelete = button.classList.contains("delete-btn");
+  const isEdit = button.classList.contains("edit-btn");
+
+  if (isDelete) {
     transactions = transactions.filter((t) => t.id !== id);
     updateUI();
+    return;
   }
 
-  if (button.classList.contains("edit-btn")) {
+  if (isEdit) {
     const tx = transactions.find((t) => t.id === id);
     if (!tx) return;
 
