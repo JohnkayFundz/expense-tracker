@@ -1,61 +1,66 @@
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<div class="app">
 
-<div class="container">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>FinTrack</h2>
 
-    <h1>Expense Tracker</h1>
+    <nav>
+      <a class="active">Dashboard</a>
+      <a>Transactions</a>
+      <a>Analytics</a>
+      <a>Settings</a>
+    </nav>
 
-    <div class="balance">
-        <h2>Your Balance</h2>
-        <h3 id="balance">$0.00</h3>
+    <div class="user-box">
+      <div class="avatar"></div>
+      <div>
+        <p>John</p>
+        <small>Premium Plan</small>
+      </div>
     </div>
+  </aside>
 
-    <div class="summary">
-        <div class="income-box">
-            <h3>Income</h3>
-            <p>$<span id="income">0</span></p>
-        </div>
+  <!-- MAIN CONTENT -->
+  <main class="main">
 
-        <div class="expense-box">
-            <h3>Expense</h3>
-            <p>$<span id="expense">0</span></p>
-        </div>
-    </div>
+    <section class="top-cards">
+      <div class="card balance">
+        <h3>Total Balance</h3>
+        <h1 id="balance">$0.00</h1>
+      </div>
 
-    <form id="transaction-form">
-        <input
-            type="text"
-            id="description"
-            placeholder="Description"
-            required
-        >
+      <div class="card income">
+        <h3>Income</h3>
+        <p id="income">$0.00</p>
+      </div>
 
-        <input
-            type="number"
-            id="amount"
-            placeholder="Amount"
-            required
-        >
+      <div class="card expense">
+        <h3>Expense</h3>
+        <p id="expense">$0.00</p>
+      </div>
+    </section>
 
-        <button type="submit">
-            Add Transaction
-        </button>
-    </form>
+    <section class="grid">
+      <div class="panel">
+        <h3>Add Transaction</h3>
+        <form id="transaction-form">
+          <input id="description" placeholder="Description">
+          <input id="amount" type="number" placeholder="Amount">
+          <button>Add</button>
+        </form>
+      </div>
 
-    <h3>Transaction History</h3>
-    <ul id="transaction-list"></ul>
+      <div class="panel">
+        <h3>Analytics</h3>
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </section>
+
+    <section class="panel full">
+      <h3>Transactions</h3>
+      <ul id="transaction-list"></ul>
+    </section>
+
+  </main>
 
 </div>
-
-<script src="script.js"></script>
-</body>
-</html>
-```
