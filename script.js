@@ -1,4 +1,3 @@
-```javascript
 const form = document.getElementById("transaction-form");
 const description = document.getElementById("description");
 const amount = document.getElementById("amount");
@@ -7,8 +6,7 @@ const balance = document.getElementById("balance");
 const income = document.getElementById("income");
 const expense = document.getElementById("expense");
 
-let transactions =
-  JSON.parse(localStorage.getItem("transactions")) || [];
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 function updateUI() {
   list.innerHTML = "";
@@ -27,26 +25,23 @@ function updateUI() {
     }
 
     const li = document.createElement("li");
+    li.className = transaction.amount > 0 ? "income-item" : "expense-item";
 
-if (transaction.amount > 0) {
-  li.classList.add("income-item");
-} else {
-  li.classList.add("expense-item");
-}
-   li.innerHTML = `
-  <div>
-    <strong>${transaction.description}</strong>
-    <br>
-    <small>${transaction.date ?? new Date().toLocaleDateString()}</small>
-  </div>
+    const sign = transaction.amount < 0 ? "-" : "+";
 
-  <div>
-    $${transaction.amount}
-    <button onclick="deleteTransaction(${index})">
-      Delete
-    </button>
-  </div>
-`;
+    li.innerHTML = `
+      <div>
+        <strong>${transaction.description}</strong><br>
+        <small>${transaction.date}</small>
+      </div>
+
+      <div>
+        ${sign}$${Math.abs(transaction.amount).toFixed(2)}
+        <button class="delete-btn" data-index="${index}">
+          Delete
+        </button>
+      </div>
+    `;
 
     list.appendChild(li);
   });
@@ -55,14 +50,13 @@ if (transaction.amount > 0) {
   income.textContent = incomeTotal.toFixed(2);
   expense.textContent = expenseTotal.toFixed(2);
 
-  localStorage.setItem(
-    "transactions",
-    JSON.stringify(transactions)
-  );
+  localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  if (!description.value || !amount.value) return;
 
   transactions.push({
     description: description.value,
@@ -76,9 +70,13 @@ form.addEventListener("submit", (e) => {
   amount.value = "";
 });
 
-function deleteTransaction(index) {
-  transactions.splice(index, 1);
-  updateUI();
-}
+// EVENT DELEGATION (clean delete system)
+list.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-btn")) {
+    const index = e.target.dataset.index;
+    transactions.splice(index, 1);
+    updateUI();
+  }
+});
 
 updateUI();
