@@ -8,15 +8,14 @@
 </head>
 
 <body>
-
-<div class="app">
+  <div class="app">
 
   <!-- SIDEBAR -->
   <aside class="sidebar" aria-label="Main navigation">
     <h1 class="logo">FinTrack</h1>
 
     <nav class="sidebar-nav">
-      <a href="#" class="active">📊 Dashboard</a>
+      <a href="#dashboard" class="active">
       <a href="#">💳 Transactions</a>
       <a href="#">📈 Analytics</a>
       <a href="#">⚙️ Settings</a>
@@ -74,7 +73,7 @@
         <form id="transaction-form">
           <input id="description" type="text" placeholder="Description" required>
           <input id="amount" type="number" placeholder="Amount" required>
-          <button type="submit">Add</button>
+          <button type="button" id="new-transaction-btn">+ New</button>
         </form>
       </section>
 
@@ -97,3 +96,8 @@
 
 </body>
 </html>
+<label for="description">Description</label>
+<input id="description" type="text" required>
+
+<label for="amount">Amount</label>
+<input id="amount" type="number" required><section class="stats" aria-label="Key metrics">
