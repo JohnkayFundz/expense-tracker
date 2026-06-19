@@ -56,11 +56,14 @@ function updateUI() {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  if (!description.value || !amount.value) return;
+  const desc = description.value.trim();
+  const amountValue = parseFloat(amount.value);
+
+  if (!desc || isNaN(amountValue)) return;
 
   transactions.push({
-    description: description.value,
-    amount: Number(amount.value),
+    description: desc,
+    amount: amountValue,
     date: new Date().toLocaleDateString()
   });
 
@@ -70,10 +73,9 @@ form.addEventListener("submit", (e) => {
   amount.value = "";
 });
 
-// EVENT DELEGATION (clean delete system)
 list.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-btn")) {
-    const index = e.target.dataset.index;
+    const index = Number(e.target.dataset.index);
     transactions.splice(index, 1);
     updateUI();
   }
