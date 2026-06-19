@@ -17,7 +17,3 @@ list.addEventListener("click", (e) => {
     description.value = tx.description;
     amount.value = tx.amount;
     editId = id;
-
-    description.focus(); // ✅ correct placement
-  }
-});
