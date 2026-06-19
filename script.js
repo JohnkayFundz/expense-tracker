@@ -18,9 +18,7 @@ function renderTransactions() {
     li.innerHTML = `
       <span>${transaction.description}</span>
       <span>$${transaction.amount}</span>
-      <button onclick="deleteTransaction(${index})">
-        ❌
-      </button>
+      <button onclick="deleteTransaction(${index})">❌</button>
     `;
 
     list.appendChild(li);
