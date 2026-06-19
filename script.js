@@ -15,21 +15,27 @@ function renderTransactions() {
   transactions.forEach((transaction, index) => {
     const li = document.createElement("li");
 
-   li.innerHTML = `
-  <span>${transaction.description}</span>
-  <span>$${transaction.amount}</span>
-  <button onclick="deleteTransaction(${index})">
-    ❌
-  </button>
-`;
+    li.innerHTML = `
+      <span>${transaction.description}</span>
+      <span>$${transaction.amount}</span>
+      <button onclick="deleteTransaction(${index})">
+        ❌
+      </button>
+    `;
 
     list.appendChild(li);
   });
 }
 
+function deleteTransaction(index) {
+  transactions.splice(index, 1);
+
+  saveToStorage();
+  renderTransactions();
+}
+
 renderTransactions();
 
-});
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -42,12 +48,7 @@ form.addEventListener("submit", function (e) {
 
   saveToStorage();
   renderTransactions();
-function deleteTransaction(index) {
-  transactions.splice(index, 1);
 
-  saveToStorage();
-  renderTransactions();
-}
   description.value = "";
   amount.value = "";
   description.focus();
