@@ -1,18 +1,17 @@
 @keyframes glowPulse {
-  0% {
+  0%, 100% {
     opacity: 0.75;
     transform: scale(1);
   }
-  100% {
+  50% {
     opacity: 1;
     transform: scale(1.02);
   }
 }
 
 .app::before {
-  animation: glowPulse 8s ease-in-out infinite alternate;
+  animation: glowPulse 8s ease-in-out infinite;
   will-change: opacity, transform;
-  transform: translateZ(0);
 }
 
 /* Card styles */
@@ -23,4 +22,10 @@
     0 0 0 1px rgba(59,130,246,0.14);
 
   will-change: transform;
+}
+
+.card:hover,
+.panel:hover {
+  transform: translateY(-4px);
+  transition: transform 200ms ease;
 }
