@@ -29,3 +29,12 @@
   transform: translateY(-4px);
   transition: transform 200ms ease;
 }
+.card:hover,
+.panel:hover {
+  transform: translateY(-4px) scale(1.01);
+}.card:hover,
+.panel:hover {
+  box-shadow:
+    0 22px 50px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(59,130,246,0.25);
+}
