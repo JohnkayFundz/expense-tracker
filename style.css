@@ -9,22 +9,25 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     background: #2a2a2a;
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 8px;
-
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: 0.3s ease;
 }
 
-/* INCOME / EXPENSE INDICATORS */
+#transaction-list li:hover {
+    transform: translateY(-2px);
+}
+
+/* INCOME / EXPENSE */
 .income-item {
-    border-right: 5px solid #22c55e;
+    border-left: 5px solid #22c55e;
 }
 
 .expense-item {
-    border-right: 5px solid #ef4444;
+    border-left: 5px solid #ef4444;
 }
 
 /* DELETE BUTTON */
@@ -32,27 +35,15 @@
     width: auto;
     padding: 6px 10px;
     background: #ef4444;
+    color: white;
     margin-left: 10px;
     font-size: 14px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
+    transition: 0.3s ease;
 }
 
 #transaction-list button:hover {
     background: #dc2626;
 }
-}
-
-#transaction-list {
-    margin-top: 15px;
-}
-
-#transaction-list li {
-    list-style: none;
-    background: #2a2a2a;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-}
-```
