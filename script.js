@@ -1,23 +1,15 @@
-list.addEventListener("click", (e) => {
-  const button = e.target.closest("button");
-  if (!button) return;
+function saveToStorage() {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}let transactions = JSON.parse(localStorage.getItem("transactions")) || [];transactions.push(newTransaction);
+saveToStorage();
+updateUI();transactions = transactions.filter((t) => t.id !== id);
+saveToStorage();
+updateUI();transactions = transactions.map((t) =>
+  t.id === editId ? { ...t, description: desc, amount: amt } : t
+);
 
-  const id = button.dataset.id;
-
-  if (button.classList.contains("delete-btn")) {
-    transactions = transactions.filter((t) => t.id !== id);
-    updateUI();
-    return;
-  }
-
-  if (!button.classList.contains("edit-btn")) return;
-
-  const tx = transactions.find((t) => t.id === id);
-  if (!tx) return;
-
-  description.value = tx.description;
-  amount.value = tx.amount;
-  editId = id;
-
-  description.focus();
-});description.select();
+saveToStorage();
+updateUI();function updateStorageAndUI() {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+  updateUI();
+}updateStorageAndUI();
