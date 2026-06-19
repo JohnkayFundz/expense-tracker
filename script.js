@@ -7,7 +7,9 @@ let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 function saveToStorage() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
-}function renderTransactions() {
+}
+
+function renderTransactions() {
   list.innerHTML = "";
 
   transactions.forEach((transaction) => {
@@ -21,14 +23,9 @@ function saveToStorage() {
     list.appendChild(li);
   });
 }
-renderTransactions();
-transactions.push({
-  description: "Test",
-  amount: 100
-});
 
-saveToStorage();
 renderTransactions();
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -41,4 +38,9 @@ form.addEventListener("submit", function (e) {
 
   saveToStorage();
   renderTransactions();
+
+  description.value = "";
+  amount.value = "";
+
+  description.focus();
 });
