@@ -7,4 +7,38 @@ let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 function saveToStorage() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
+}function renderTransactions() {
+  list.innerHTML = "";
+
+  transactions.forEach((transaction) => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <span>${transaction.description}</span>
+      <span>$${transaction.amount}</span>
+    `;
+
+    list.appendChild(li);
+  });
 }
+renderTransactions();
+transactions.push({
+  description: "Test",
+  amount: 100
+});
+
+saveToStorage();
+renderTransactions();
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const transaction = {
+    description: description.value,
+    amount: Number(amount.value)
+  };
+
+  transactions.push(transaction);
+
+  saveToStorage();
+  renderTransactions();
+});
