@@ -1,59 +1,68 @@
-# Expense Tracker
+# 💰 Expense Tracker App
 
-A simple and responsive Expense Tracker web application built with HTML, CSS, and JavaScript.
+A modern, responsive Expense Tracker web application built using **HTML, CSS, and Vanilla JavaScript**.  
+It allows users to track income, expenses, and balance in real time with persistent local storage.
 
-## Features
+---
 
-* Add income and expense transactions
-* Track your balance in real time
-* View transaction history
-* Responsive design
-* Easy-to-use interface
+## 🌐 Live Demo
 
-## Technologies Used
+👉 [View Live Project](#)  
+*(Replace with your GitHub Pages link when deployed)*
 
-* HTML5
-* CSS3
-* JavaScript
+---
 
-## Project Structure
+## 📸 Preview
+
+*(Add screenshots here after deployment)*
+
+| Dashboard | Add Transaction |
+|----------|----------------|
+| ![Dashboard](./screenshots/dashboard.png) | ![Add](./screenshots/add.png) |
+
+---
+
+## 🚀 Features
+
+- ➕ Add income and expense transactions
+- 🗑️ Delete transactions instantly
+- 💰 Real-time balance calculation
+- 📊 Income vs Expense tracking
+- 💾 Local storage persistence (data saved even after refresh)
+- 📱 Fully responsive design
+- ⚡ Fast and lightweight (no frameworks)
+
+---
+
+## 🧠 What I Learned
+
+- DOM manipulation with JavaScript
+- Array methods (`map`, `filter`, `reduce`)
+- Event handling and form validation
+- LocalStorage for data persistence
+- Dynamic UI rendering
+- State management without frameworks
+
+---
+
+## 🛠️ Tech Stack
+
+- HTML5
+- CSS3
+- JavaScript (ES6)
+
+---
+
+## 📁 Project Structure
 
 ```text
 expense-tracker/
 │
 ├── index.html
 ├── CSS/
+│   └── style.css
 ├── JavaScript/
+│   └── script.js
+├── screenshots/
 ├── README.md
 └── LICENSE
-```
-
-## Getting Started
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/JohnkayFundz/expense-tracker.git
-```
-
-2. Open the project folder.
-
-3. Launch `index.html` in your browser.
-
-## Future Improvements
-
-* Local storage support
-* Data persistence
-* Categories for transactions
-* Charts and analytics
-* Dark mode
-
-## Author
-
-John Kalumba
-
-GitHub: https://github.com/JohnkayFundz
-
-## License
-
-This project is licensed under the MIT License.
