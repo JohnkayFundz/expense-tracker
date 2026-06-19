@@ -15,9 +15,7 @@ function renderTransactions() {
   transactions.forEach((transaction, index) => {
     const li = document.createElement("li");
 
-    li.innerHTML = `
-      <span>${transaction.description}</span>
-      <span>$${transaction.amount}</span>
+    <span>${transaction.amount > 0 ? "+" : ""}$${transaction.amount}</span>
       <button onclick="deleteTransaction(${index})">❌</button>
     `;
 
