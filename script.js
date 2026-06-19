@@ -34,6 +34,19 @@ form.addEventListener("submit", function (e) {
     amount: Number(amount.value)
   };
 
+  description.value = "";
+  amount.value = "";
+
+  description.focus();
+});
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const transaction = {
+    description: description.value,
+    amount: Number(amount.value)
+  };
+
   transactions.push(transaction);
 
   saveToStorage();
@@ -41,6 +54,5 @@ form.addEventListener("submit", function (e) {
 
   description.value = "";
   amount.value = "";
-
   description.focus();
 });
