@@ -12,13 +12,16 @@ function saveToStorage() {
 function renderTransactions() {
   list.innerHTML = "";
 
-  transactions.forEach((transaction) => {
+  transactions.forEach((transaction, index) => {
     const li = document.createElement("li");
 
-    li.innerHTML = `
-      <span>${transaction.description}</span>
-      <span>$${transaction.amount}</span>
-    `;
+   li.innerHTML = `
+  <span>${transaction.description}</span>
+  <span>$${transaction.amount}</span>
+  <button onclick="deleteTransaction(${index})">
+    ❌
+  </button>
+`;
 
     list.appendChild(li);
   });
@@ -26,18 +29,6 @@ function renderTransactions() {
 
 renderTransactions();
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const transaction = {
-    description: description.value,
-    amount: Number(amount.value)
-  };
-
-  description.value = "";
-  amount.value = "";
-
-  description.focus();
 });
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -51,7 +42,12 @@ form.addEventListener("submit", function (e) {
 
   saveToStorage();
   renderTransactions();
+function deleteTransaction(index) {
+  transactions.splice(index, 1);
 
+  saveToStorage();
+  renderTransactions();
+}
   description.value = "";
   amount.value = "";
   description.focus();
