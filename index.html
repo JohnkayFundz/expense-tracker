@@ -8,17 +8,18 @@
 </head>
 
 <body>
-  <div class="app">
+
+<div class="app">
 
   <!-- SIDEBAR -->
   <aside class="sidebar" aria-label="Main navigation">
     <h1 class="logo">FinTrack</h1>
 
     <nav class="sidebar-nav">
-      <a href="#dashboard" class="active">
-      <a href="#">💳 Transactions</a>
-      <a href="#">📈 Analytics</a>
-      <a href="#">⚙️ Settings</a>
+      <a href="#dashboard" class="active">📊 Dashboard</a>
+      <a href="#transactions">💳 Transactions</a>
+      <a href="#analytics">📈 Analytics</a>
+      <a href="#settings">⚙️ Settings</a>
     </nav>
 
     <div class="user-box">
@@ -47,7 +48,7 @@
     </header>
 
     <!-- STATS -->
-    <section class="stats">
+    <section class="stats" aria-label="Key metrics">
       <article class="card">
         <h3>Total Balance</h3>
         <p id="balance">$0.00</p>
@@ -65,15 +66,19 @@
     </section>
 
     <!-- CONTENT GRID -->
-    <section class="grid">
+    <section class="grid" aria-label="Tools and analytics">
 
       <section class="panel">
         <h3>Add Transaction</h3>
 
         <form id="transaction-form">
-          <input id="description" type="text" placeholder="Description" required>
-          <input id="amount" type="number" placeholder="Amount" required>
-          <button type="button" id="new-transaction-btn">+ New</button>
+          <label for="description">Description</label>
+          <input id="description" type="text" required>
+
+          <label for="amount">Amount</label>
+          <input id="amount" type="number" required>
+
+          <button type="submit">Add Transaction</button>
         </form>
       </section>
 
@@ -85,7 +90,7 @@
     </section>
 
     <!-- TRANSACTIONS -->
-    <section class="panel full">
+    <section class="panel full" id="transactions" aria-label="Transaction history">
       <h3>Transactions</h3>
       <ul id="transaction-list"></ul>
     </section>
@@ -96,8 +101,3 @@
 
 </body>
 </html>
-<label for="description">Description</label>
-<input id="description" type="text" required>
-
-<label for="amount">Amount</label>
-<input id="amount" type="number" required><section class="stats" aria-label="Key metrics">
