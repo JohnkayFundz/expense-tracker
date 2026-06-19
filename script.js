@@ -10,14 +10,14 @@ list.addEventListener("click", (e) => {
     return;
   }
 
-  if (button.classList.contains("edit-btn")) {
-    const tx = transactions.find((t) => t.id === id);
-    if (!tx) return;
+  if (!button.classList.contains("edit-btn")) return;
 
-    description.value = tx.description;
-    amount.value = tx.amount;
-    editId = id;
+  const tx = transactions.find((t) => t.id === id);
+  if (!tx) return;
 
-    description.focus();
-  }
-});
+  description.value = tx.description;
+  amount.value = tx.amount;
+  editId = id;
+
+  description.focus();
+});description.select();
