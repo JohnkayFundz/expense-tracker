@@ -1,16 +1,62 @@
-const list = document.getElementById("transaction-list");
+const form = document.getElementById("transaction-form");
+const description = document.getElementById("description");
+const amount = document.getElementById("amount");
 
 const type = document.getElementById("type");
-const category = document.getElementById("category");function deleteTransaction(index) {
-  transactions.splice(index, 1);
+const category = document.getElementById("category");
 
-  saveToStorage();
-  renderTransactions();
+const list = document.getElementById("transaction-list");
+
+const balanceEl = document.getElementById("balance");
+const incomeEl = document.getElementById("income");
+const expenseEl = document.getElementById("expense");
+
+const totalTransactionsEl = document.getElementById("total-transactions");
+const largestExpenseEl = document.getElementById("largest-expense");
+
+const emptyState = document.getElementById("empty-state");
+
+let transactions =
+  JSON.parse(localStorage.getItem("transactions")) || [];
+
+function saveToStorage() {
+  localStorage.setItem(
+    "transactions",
+    JSON.stringify(transactions)
+  );
 }
 
 function updateStats() {
-  // stats code here
-}function renderTransactions() {
+  let income = 0;
+  let expense = 0;
+  let largestExpense = 0;
+
+  transactions.forEach(transaction => {
+    if (transaction.type === "income") {
+      income += transaction.amount;
+    } else {
+      expense += transaction.amount;
+
+      if (transaction.amount > largestExpense) {
+        largestExpense = transaction.amount;
+      }
+    }
+  });
+
+  const balance = income - expense;
+
+  balanceEl.textContent = `$${balance.toFixed(2)}`;
+  incomeEl.textContent = `$${income.toFixed(2)}`;
+  expenseEl.textContent = `$${expense.toFixed(2)}`;
+
+  totalTransactionsEl.textContent =
+    transactions.length;
+
+  largestExpenseEl.textContent =
+    `$${largestExpense.toFixed(2)}`;
+}
+
+function renderTransactions() {
   list.innerHTML = "";
 
   if (transactions.length === 0) {
@@ -47,10 +93,37 @@ function updateStats() {
   });
 
   updateStats();
-}const transaction = {
-  description: description.value,
-  amount: Number(amount.value),
-  type: type.value,
-  category: category.value
-};description.value = "";
-amount.value = "";localStorage.clear();
+}
+
+function deleteTransaction(index) {
+  transactions.splice(index, 1);
+
+  saveToStorage();
+  renderTransactions();
+}
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const transaction = {
+    description: description.value,
+    amount: Number(amount.value),
+    type: type.value,
+    category: category.value
+  };
+
+  transactions.push(transaction);
+
+  saveToStorage();
+  renderTransactions();
+
+  description.value = "";
+  amount.value = "";
+
+  type.value = "expense";
+  category.value = "Food";
+
+  description.focus();
+});
+
+renderTransactions();
