@@ -1,88 +1,56 @@
-const form = document.getElementById("transaction-form");
-const description = document.getElementById("description");
-const amount = document.getElementById("amount");
-const list = document.getElementById("transaction-list");const type = document.getElementById("type");
-const category = document.getElementById("category");
+const list = document.getElementById("transaction-list");
 
-const balanceEl = document.getElementById("balance");
-const incomeEl = document.getElementById("income");
-const expenseEl = document.getElementById("expense");
+const type = document.getElementById("type");
+const category = document.getElementById("category");function deleteTransaction(index) {
+  transactions.splice(index, 1);
 
-const totalTransactionsEl = document.getElementById("total-transactions");
-const largestExpenseEl = document.getElementById("largest-expense");
-
-const emptyState = document.getElementById("empty-state");
-
-let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-
-function saveToStorage() {
-  localStorage.setItem("transactions", JSON.stringify(transactions));
+  saveToStorage();
+  renderTransactions();
 }
 
-function renderTransactions() {
+function updateStats() {
+  // stats code here
+}function renderTransactions() {
   list.innerHTML = "";
+
+  if (transactions.length === 0) {
+    emptyState.style.display = "block";
+  } else {
+    emptyState.style.display = "none";
+  }
 
   transactions.forEach((transaction, index) => {
     const li = document.createElement("li");
 
+    const sign =
+      transaction.type === "income"
+        ? "+"
+        : "-";
+
     li.innerHTML = `
-      <span>${transaction.description}</span>
-      <span>${transaction.amount > 0 ? "+" : ""}$${transaction.amount}</span>
-      <button onclick="deleteTransaction(${index})">❌</button>
+      <div>
+        <strong>${transaction.description}</strong>
+        <br>
+        <small>${transaction.category}</small>
+      </div>
+
+      <div>
+        ${sign}$${transaction.amount}
+      </div>
+
+      <button onclick="deleteTransaction(${index})">
+        ❌
+      </button>
     `;
 
     list.appendChild(li);
   });
-}
 
-function deleteTransaction(index) {
-  transactions.splice(index, 1);
-
-  saveToStorage();function updateStats() {
-  let income = 0;
-  let expense = 0;
-  let largestExpense = 0;
-
-  transactions.forEach(transaction => {
-    if (transaction.type === "income") {
-      income += transaction.amount;
-    } else {
-      expense += transaction.amount;
-
-      if (transaction.amount > largestExpense) {
-        largestExpense = transaction.amount;
-      }
-    }
-  });
-
-  const balance = income - expense;
-
-  balanceEl.textContent = `$${balance.toFixed(2)}`;
-  incomeEl.textContent = `$${income.toFixed(2)}`;
-  expenseEl.textContent = `$${expense.toFixed(2)}`;
-
-  totalTransactionsEl.textContent = transactions.length;
-  largestExpenseEl.textContent = `$${largestExpense.toFixed(2)}`;
-}
-  renderTransactions();
-}
-
-renderTransactions();
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const transaction = {
-    description: description.value,
-    amount: Number(amount.value)
-  };
-
-  transactions.push(transaction);
-
-  saveToStorage();
-  renderTransactions();
-
-  description.value = "";
-  amount.value = "";
-  description.focus();
-});
+  updateStats();
+}const transaction = {
+  description: description.value,
+  amount: Number(amount.value),
+  type: type.value,
+  category: category.value
+};description.value = "";
+amount.value = "";localStorage.clear();
