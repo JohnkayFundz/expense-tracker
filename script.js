@@ -15,7 +15,14 @@ const totalTransactionsEl = document.getElementById("total-transactions");
 const largestExpenseEl = document.getElementById("largest-expense");
 
 const emptyState = document.getElementById("empty-state");
+const searchInput = document.getElementById("search");
+const filterCategory = document.getElementById("filter-category");
 
+const averageExpenseEl =
+  document.getElementById("average-expense");
+
+const topCategoryEl =
+  document.getElementById("top-category");
 let transactions =
   JSON.parse(localStorage.getItem("transactions")) || [];
 
@@ -127,3 +134,24 @@ form.addEventListener("submit", function (e) {
 });
 
 renderTransactions();
+const searchTerm =
+  searchInput.value.toLowerCase();
+
+const selectedCategory =
+  filterCategory.value;
+
+const filteredTransactions =
+  transactions.filter(transaction => {
+
+    const matchesSearch =
+      transaction.description
+        .toLowerCase()
+        .includes(searchTerm);
+
+    const matchesCategory =
+      selectedCategory === "all" ||
+      transaction.category === selectedCategory;
+
+    return matchesSearch &&
+           matchesCategory;
+  });
