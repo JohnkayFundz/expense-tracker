@@ -77,7 +77,11 @@ function renderTransactions() {
       <div>
         <strong>${transaction.description}</strong>
         <br>
-        <small>${transaction.category}</small>
+       <small>
+  ${transaction.category}
+  •
+  ${transaction.date}
+</small>
       </div>
 
       <div>
@@ -105,12 +109,14 @@ function deleteTransaction(index) {
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const transaction = {
-    description: description.value,
-    amount: Number(amount.value),
-    type: type.value,
-    category: category.value
-  };
+const transaction = {
+  id: Date.now(),
+  description: description.value,
+  amount: Number(amount.value),
+  type: type.value,
+  category: category.value,
+  date: new Date().toLocaleDateString()
+};
 
   transactions.push(transaction);
 
