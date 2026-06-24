@@ -15,14 +15,7 @@ const totalTransactionsEl = document.getElementById("total-transactions");
 const largestExpenseEl = document.getElementById("largest-expense");
 
 const emptyState = document.getElementById("empty-state");
-const searchInput = document.getElementById("search");
-const filterCategory = document.getElementById("filter-category");
 
-const averageExpenseEl =
-  document.getElementById("average-expense");
-
-const topCategoryEl =
-  document.getElementById("top-category");
 let transactions =
   JSON.parse(localStorage.getItem("transactions")) || [];
 
@@ -64,69 +57,73 @@ function updateStats() {
 }
 
 function renderTransactions() {
-list.innerHTML = "";
+  list.innerHTML = "";
 
-const searchTerm =
-searchInput.value.toLowerCase();
+  if (transactions.length === 0) {
+    emptyState.style.display = "block";
+  } else {
+    emptyState.style.display = "none";
+  }
 
-const selectedCategory =
-filterCategory.value;
+  transactions.forEach((transaction, index) => {
+    const li = document.createElement("li");
 
-const filteredTransactions =
-transactions.filter(transaction => {
+    const sign =
+      transaction.type === "income"
+        ? "+"
+        : "-";
 
-```
-  const matchesSearch =
-    transaction.description
-      .toLowerCase()
-      .includes(searchTerm);
+    li.innerHTML = `
+      <div>
+        <strong>${transaction.description}</strong>
+        <br>
+        <small>${transaction.category}</small>
+      </div>
 
-  const matchesCategory =
-    selectedCategory === "all" ||
-    transaction.category === selectedCategory;
+      <div>
+        ${sign}$${transaction.amount}
+      </div>
 
-  return matchesSearch &&
-         matchesCategory;
-});
-```
+      <button onclick="deleteTransaction(${index})">
+        ❌
+      </button>
+    `;
 
-if (filteredTransactions.length === 0) {
-emptyState.style.display = "block";
-} else {
-emptyState.style.display = "none";
+    list.appendChild(li);
+  });
+
+  updateStats();
 }
 
-filteredTransactions.forEach((transaction) => {
+function deleteTransaction(index) {
+  transactions.splice(index, 1);
 
-```
-const li = document.createElement("li");
+  saveToStorage();
+  renderTransactions();
+}
 
-const sign =
-  transaction.type === "income"
-    ? "+"
-    : "-";
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-li.innerHTML = `
-  <div>
-    <strong>${transaction.description}</strong>
-    <br>
-    <small>
-      ${transaction.category}
-      •
-      ${transaction.date || "No Date"}
-    </small>
-  </div>
+  const transaction = {
+    description: description.value,
+    amount: Number(amount.value),
+    type: type.value,
+    category: category.value
+  };
 
-  <div>
-    ${sign}$${transaction.amount}
-  </div>
+  transactions.push(transaction);
 
-  <button onclick="deleteTransaction(${transaction.id})">
-    ❌
-  </button>
-`;
+  saveToStorage();
+  renderTransactions();
 
-list.appendChild(li);
-```
+  description.value = "";
+  amount.value = "";
 
+  type.value = "expense";
+  category.value = "Food";
+
+  description.focus();
 });
+
+renderTransactions();
