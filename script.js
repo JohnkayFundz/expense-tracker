@@ -99,11 +99,36 @@ const topCategoryEl =
 
       return matchesSearch &&
              matchesCategory;
-    });filteredTransactions.forEach(...)<small>
-  ${transaction.category}
-  •
-  ${transaction.date}
-</small>searchInput.addEventListener(
+    filteredTransactions.forEach((transaction) => {
+  const li = document.createElement("li");
+
+  const sign =
+    transaction.type === "income"
+      ? "+"
+      : "-";
+
+  li.innerHTML = `
+    <div>
+      <strong>${transaction.description}</strong>
+      <br>
+      <small>
+        ${transaction.category}
+        •
+        ${transaction.date}
+      </small>
+    </div>
+
+    <div>
+      ${sign}$${transaction.amount}
+    </div>
+
+    <button onclick="deleteTransaction(${transaction.id})">
+      ❌
+    </button>
+  `;
+
+  list.appendChild(li);
+});searchInput.addEventListener(
   "input",
   renderTransactions
 );
@@ -111,4 +136,4 @@ const topCategoryEl =
 filterCategory.addEventListener(
   "change",
   renderTransactions
-);deleteTransaction(index)id: Date.now()deleteTransaction(id)
+);
