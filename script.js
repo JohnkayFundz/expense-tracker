@@ -1,7 +1,8 @@
 const form = document.getElementById("transaction-form");
 const description = document.getElementById("description");
 const amount = document.getElementById("amount");
-
+const searchInput =
+  document.getElementById("search");
 const type = document.getElementById("type");
 const category = document.getElementById("category");
 
@@ -31,7 +32,17 @@ function updateStats() {
   let expense = 0;
   let largestExpense = 0;
 
-  transactions.forEach(transaction => {
+  const searchTerm =
+  searchInput.value.toLowerCase();
+
+const filteredTransactions =
+  transactions.filter(transaction =>
+    transaction.description
+      .toLowerCase()
+      .includes(searchTerm)
+  );
+
+filteredTransactions.forEach((transaction, index) => {
     if (transaction.type === "income") {
       income += transaction.amount;
     } else {
@@ -121,6 +132,10 @@ const transaction = {
   transactions.push(transaction);
 
   saveToStorage();
+  searchInput.addEventListener(
+  "input",
+  renderTransactions
+);
   renderTransactions();
 
   description.value = "";
