@@ -1,45 +1,41 @@
-const form = document.getElementById("transaction-form");
-const description = document.getElementById("description");
-const amount = document.getElementById("amount");
+const searchInput = document.getElementById("search");
+const filterCategory = document.getElementById("filter-category");
 
-const type = document.getElementById("type");
-const category = document.getElementById("category");
+const averageExpenseEl =
+  document.getElementById("average-expense");
 
-const list = document.getElementById("transaction-list");
-
-const balanceEl = document.getElementById("balance");
-const incomeEl = document.getElementById("income");
-const expenseEl = document.getElementById("expense");
-
-const totalTransactionsEl = document.getElementById("total-transactions");
-const largestExpenseEl = document.getElementById("largest-expense");
-
-const emptyState = document.getElementById("empty-state");
-
-let transactions =
-  JSON.parse(localStorage.getItem("transactions")) || [];
-
-function saveToStorage() {
-  localStorage.setItem(
-    "transactions",
-    JSON.stringify(transactions)
-  );
-}
-
-function updateStats() {
+const topCategoryEl =
+  document.getElementById("top-category");const transaction = {
+  description: description.value,
+  amount: Number(amount.value),
+  type: type.value,
+  category: category.value,
+  date: new Date().toLocaleDateString()
+};function updateStats() {
   let income = 0;
   let expense = 0;
   let largestExpense = 0;
 
+  let expenseCount = 0;
+
+  const categoryTotals = {};
+
   transactions.forEach(transaction => {
+
     if (transaction.type === "income") {
       income += transaction.amount;
     } else {
+
       expense += transaction.amount;
+      expenseCount++;
 
       if (transaction.amount > largestExpense) {
         largestExpense = transaction.amount;
       }
+
+      categoryTotals[transaction.category] =
+        (categoryTotals[transaction.category] || 0)
+        + transaction.amount;
     }
   });
 
@@ -54,76 +50,65 @@ function updateStats() {
 
   largestExpenseEl.textContent =
     `$${largestExpense.toFixed(2)}`;
-}
 
-function renderTransactions() {
-  list.innerHTML = "";
+  const average =
+    expenseCount > 0
+      ? expense / expenseCount
+      : 0;
 
-  if (transactions.length === 0) {
-    emptyState.style.display = "block";
-  } else {
-    emptyState.style.display = "none";
+  averageExpenseEl.textContent =
+    `$${average.toFixed(2)}`;
+
+  let topCategory = "None";
+  let highestTotal = 0;
+
+  for (const category in categoryTotals) {
+
+    if (categoryTotals[category] > highestTotal) {
+
+      highestTotal =
+        categoryTotals[category];
+
+      topCategory = category;
+    }
   }
 
-  transactions.forEach((transaction, index) => {
-    const li = document.createElement("li");
+  topCategoryEl.textContent =
+    topCategory;
+}function renderTransactions() {
 
-    const sign =
-      transaction.type === "income"
-        ? "+"
-        : "-";
+  list.innerHTML = "";
 
-    li.innerHTML = `
-      <div>
-        <strong>${transaction.description}</strong>
-        <br>
-        <small>${transaction.category}</small>
-      </div>
+  const searchTerm =
+    searchInput.value.toLowerCase();
 
-      <div>
-        ${sign}$${transaction.amount}
-      </div>
+  const selectedCategory =
+    filterCategory.value;
 
-      <button onclick="deleteTransaction(${index})">
-        ❌
-      </button>
-    `;
+  const filteredTransactions =
+    transactions.filter(transaction => {
 
-    list.appendChild(li);
-  });
+      const matchesSearch =
+        transaction.description
+          .toLowerCase()
+          .includes(searchTerm);
 
-  updateStats();
-}
+      const matchesCategory =
+        selectedCategory === "all" ||
+        transaction.category === selectedCategory;
 
-function deleteTransaction(index) {
-  transactions.splice(index, 1);
+      return matchesSearch &&
+             matchesCategory;
+    });filteredTransactions.forEach(...)<small>
+  ${transaction.category}
+  •
+  ${transaction.date}
+</small>searchInput.addEventListener(
+  "input",
+  renderTransactions
+);
 
-  saveToStorage();
-  renderTransactions();
-}
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const transaction = {
-    description: description.value,
-    amount: Number(amount.value),
-    type: type.value,
-    category: category.value
-  };
-
-  transactions.push(transaction);
-
-  saveToStorage();
-  renderTransactions();
-
-  description.value = "";
-  amount.value = "";
-
-  type.value = "expense";
-  category.value = "Food";
-
-  description.focus();
-});
-
-renderTransactions();
+filterCategory.addEventListener(
+  "change",
+  renderTransactions
+);deleteTransaction(index)id: Date.now()deleteTransaction(id)
