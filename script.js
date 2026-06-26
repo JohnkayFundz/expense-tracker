@@ -1,18 +1,12 @@
-const categoryColors = {
-  Food: "rgba(75, 192, 192, 0.6)",       // teal
-  Transport: "rgba(255, 99, 132, 0.6)",  // red
-  Entertainment: "rgba(255, 206, 86, 0.6)", // yellow
-  Shopping: "rgba(54, 162, 235, 0.6)",   // blue
-  Bills: "rgba(153, 102, 255, 0.6)",     // purple
-  Other: "rgba(255, 159, 64, 0.6)"       // orange
-};
-const chartTypeSelect = document.getElementById("chartType");
-let categoryChart; // global reference
+const darkModeToggle = document.getElementById("darkModeToggle");
+
+darkModeToggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark-mode", darkModeToggle.checked);
+  renderCategoryChart(transactions); // re-render chart with new colors
+});
 
 function renderCategoryChart(filteredTransactions) {
-  // Aggregate totals by category
   const categoryTotals = {};
-
   filteredTransactions.forEach(t => {
     if (!categoryTotals[t.category]) {
       categoryTotals[t.category] = { income: 0, expense: 0 };
@@ -25,83 +19,65 @@ function renderCategoryChart(filteredTransactions) {
   });
 
   const categories = Object.keys(categoryTotals);
-  const incomeData = categories.map(c => categoryTotals[c].income);
-  const expenseData = categories.map(c => categoryTotals[c].expense);
-
+  const totalData = categories.map(c => categoryTotals[c].income + categoryTotals[c].expense);
   const ctx = document.getElementById("categoryChart").getContext("2d");
 
-  // Destroy old chart if exists
-  if (categoryChart) {
-    categoryChart.destroy();
-  }
+  if (categoryChart) categoryChart.destroy();
 
-  const selectedType = chartTypeSelect.value;
+  const grandTotal = totalData.reduce((sum, val) => sum + val, 0);
 
-  if (selectedType === "bar") {
-    categoryChart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: categories,
-        datasets: [
-          {
-            label: "Income",
-            data: incomeData,
-            backgroundColor: "rgba(75, 192, 192, 0.6)"
-          },
-          {
-            label: "Expense",
-            data: expenseData,
-            backgroundColor: "rgba(255, 99, 132, 0.6)"
+  // Adjust colors based on dark mode
+  const isDark = document.body.classList.contains("dark-mode");
+  const textColor = isDark ? "#e0e0e0" : "#000000";
+
+  categoryChart = new Chart(ctx, {
+    type: chartTypeSelect.value,
+    data: {
+      labels: categories,
+      datasets: [
+        {
+          label: "Total",
+          data: totalData,
+          backgroundColor: categories.map(c => categoryColors[c] || "rgba(200,200,200,0.6)")
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Totals and Percentages by Category",
+          color: textColor
+        },
+        legend: {
+          labels: {
+            color: textColor,
+            generateLabels: function (chart) {
+              const data = chart.data;
+              return data.labels.map((label, i) => {
+                const value = data.datasets[0].data[i];
+                const percent = ((value / grandTotal) * 100).toFixed(2);
+                return {
+                  text: `${label}: $${value.toFixed(2)} (${percent}%)`,
+                  fillStyle: data.datasets[0].backgroundColor[i],
+                  hidden: false,
+                  index: i
+                };
+              });
+            }
           }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: "Income vs Expense by Category"
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              const value = context.raw;
+              const percent = ((value / grandTotal) * 100).toFixed(2);
+              return `${context.label}: $${value.toFixed(2)} (${percent}%)`;
+            }
           }
         }
       }
-    });
-  } else {
-    // For pie/doughnut, combine income + expense per category
-    const totalData = categories.map(c => categoryTotals[c].income + categoryTotals[c].expense);
-
-    categoryChart = new Chart(ctx, {
-      type: selectedType, // "pie" or "doughnut"
-      data: {
-        labels: categories,
-        datasets: [
-          {
-            label: "Total",
-            data: totalData,
-            backgroundColor: [
-              "rgba(75, 192, 192, 0.6)",
-              "rgba(255, 99, 132, 0.6)",
-              "rgba(255, 206, 86, 0.6)",
-              "rgba(54, 162, 235, 0.6)",
-              "rgba(153, 102, 255, 0.6)",
-              "rgba(255, 159, 64, 0.6)"
-            ]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: "Total by Category"
-          }
-        }
-      }
-    });
-  }
+    }
+  });
 }
-
-// Re-render chart when chart type changes
-chartTypeSelect.addEventListener("change", () => {
-  renderCategoryChart(transactions);
-});
