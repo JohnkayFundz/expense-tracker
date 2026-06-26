@@ -1,3 +1,11 @@
+const categoryColors = {
+  Food: "rgba(75, 192, 192, 0.6)",       // teal
+  Transport: "rgba(255, 99, 132, 0.6)",  // red
+  Entertainment: "rgba(255, 206, 86, 0.6)", // yellow
+  Shopping: "rgba(54, 162, 235, 0.6)",   // blue
+  Bills: "rgba(153, 102, 255, 0.6)",     // purple
+  Other: "rgba(255, 159, 64, 0.6)"       // orange
+};
 const chartTypeSelect = document.getElementById("chartType");
 let categoryChart; // global reference
 
