@@ -1,49 +1,99 @@
-const sortSelect = document.getElementById("sort");
+const chartTypeSelect = document.getElementById("chartType");
+let categoryChart; // global reference
 
-function renderTransactions() {
-  list.innerHTML = "";
+function renderCategoryChart(filteredTransactions) {
+  // Aggregate totals by category
+  const categoryTotals = {};
 
-  const searchTerm = searchInput.value.toLowerCase();
-  let filteredTransactions = transactions.filter(t =>
-    t.description.toLowerCase().includes(searchTerm)
-  );
-
-  // Apply sorting
-  const sortValue = sortSelect.value;
-  if (sortValue === "newest") {
-    filteredTransactions.sort((a, b) => b.id - a.id);
-  } else if (sortValue === "oldest") {
-    filteredTransactions.sort((a, b) => a.id - b.id);
-  } else if (sortValue === "highest") {
-    filteredTransactions.sort((a, b) => b.amount - a.amount);
-  } else if (sortValue === "lowest") {
-    filteredTransactions.sort((a, b) => a.amount - b.amount);
-  }
-
-  if (filteredTransactions.length === 0) {
-    emptyState.style.display = "block";
-  } else {
-    emptyState.style.display = "none";
-  }
-
-  filteredTransactions.forEach(transaction => {
-    const li = document.createElement("li");
-    const sign = transaction.type === "income" ? "+" : "-";
-
-    li.innerHTML = `
-      <div>
-        <strong>${transaction.description}</strong><br>
-        <small>${transaction.category} • ${transaction.date}</small>
-      </div>
-      <div>${sign}$${transaction.amount}</div>
-      <button onclick="deleteTransaction(${transaction.id})">❌</button>
-    `;
-
-    list.appendChild(li);
+  filteredTransactions.forEach(t => {
+    if (!categoryTotals[t.category]) {
+      categoryTotals[t.category] = { income: 0, expense: 0 };
+    }
+    if (t.type === "income") {
+      categoryTotals[t.category].income += t.amount;
+    } else {
+      categoryTotals[t.category].expense += t.amount;
+    }
   });
 
-  updateStats(filteredTransactions);
+  const categories = Object.keys(categoryTotals);
+  const incomeData = categories.map(c => categoryTotals[c].income);
+  const expenseData = categories.map(c => categoryTotals[c].expense);
+
+  const ctx = document.getElementById("categoryChart").getContext("2d");
+
+  // Destroy old chart if exists
+  if (categoryChart) {
+    categoryChart.destroy();
+  }
+
+  const selectedType = chartTypeSelect.value;
+
+  if (selectedType === "bar") {
+    categoryChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: categories,
+        datasets: [
+          {
+            label: "Income",
+            data: incomeData,
+            backgroundColor: "rgba(75, 192, 192, 0.6)"
+          },
+          {
+            label: "Expense",
+            data: expenseData,
+            backgroundColor: "rgba(255, 99, 132, 0.6)"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Income vs Expense by Category"
+          }
+        }
+      }
+    });
+  } else {
+    // For pie/doughnut, combine income + expense per category
+    const totalData = categories.map(c => categoryTotals[c].income + categoryTotals[c].expense);
+
+    categoryChart = new Chart(ctx, {
+      type: selectedType, // "pie" or "doughnut"
+      data: {
+        labels: categories,
+        datasets: [
+          {
+            label: "Total",
+            data: totalData,
+            backgroundColor: [
+              "rgba(75, 192, 192, 0.6)",
+              "rgba(255, 99, 132, 0.6)",
+              "rgba(255, 206, 86, 0.6)",
+              "rgba(54, 162, 235, 0.6)",
+              "rgba(153, 102, 255, 0.6)",
+              "rgba(255, 159, 64, 0.6)"
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Total by Category"
+          }
+        }
+      }
+    });
+  }
 }
 
-// Re-render when sort option changes
-sortSelect.addEventListener("change", renderTransactions);
+// Re-render chart when chart type changes
+chartTypeSelect.addEventListener("change", () => {
+  renderCategoryChart(transactions);
+});
