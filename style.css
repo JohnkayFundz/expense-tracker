@@ -1,7 +1,13 @@
-.card:hover,
-.panel:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow:
-    0 25px 60px rgba(0,0,0,0.35),
-    0 0 0 1px rgba(59,130,246,0.25);
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode li {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode h3 {
+  color: #90caf9;
 }
