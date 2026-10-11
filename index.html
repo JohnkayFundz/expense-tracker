@@ -1,3 +1,130 @@
-<label>
-  <input type="checkbox" id="darkModeToggle"> Dark Mode
-</label>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7fb" />
+    <meta name="description" content="A simple, private expense tracker to manage your income, spending, and balance." />
+    <title>Spendwise — Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#" aria-label="Spendwise home">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>spendwise<span class="brand-dot">.</span></span>
+        </a>
+        <div class="workspace-label">WORKSPACE</div>
+        <nav class="nav-list">
+          <a class="nav-link active" href="#overview"><span aria-hidden="true">▦</span> Overview</a>
+          <a class="nav-link" href="#transactions"><span aria-hidden="true">↔</span> Transactions</a>
+          <a class="nav-link" href="#spending"><span aria-hidden="true">◔</span> Spending insights</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="privacy-card">
+            <span class="privacy-icon" aria-hidden="true">⌁</span>
+            <strong>Your money, your data</strong>
+            <p>Your transaction records stay in this browser. Export a CSV backup when you need one.</p>
+          </div>
+          <div class="profile">
+            <span class="avatar" aria-hidden="true">JK</span>
+            <span class="profile-copy"><strong>My finances</strong><small>Personal workspace</small></span>
+            <span class="profile-menu" aria-hidden="true">•••</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-slash">/</span><strong>Overview</strong></div>
+          <div class="topbar-actions">
+            <span class="today-label" id="todayLabel"></span>
+            <button class="icon-button" id="darkModeToggle" type="button" aria-label="Switch color theme" aria-pressed="false" title="Switch theme"><span id="themeIcon" aria-hidden="true">☾</span></button>
+          </div>
+        </header>
+
+        <section class="page-heading" id="overview">
+          <div>
+            <p class="eyebrow">YOUR FINANCIAL SNAPSHOT</p>
+            <h1>Good money habits start here<span class="heading-period">.</span></h1>
+            <p class="page-subtitle">A clearer view of what comes in, what goes out, and what stays.</p>
+          </div>
+          <button class="primary-button" id="jumpToForm" type="button"><span aria-hidden="true">＋</span> Add transaction</button>
+        </section>
+
+        <section class="summary-grid" aria-label="Financial summary">
+          <article class="summary-card balance-card">
+            <div class="summary-top"><span class="summary-label">Total balance</span><span class="summary-icon balance-icon" aria-hidden="true">◈</span></div>
+            <p class="summary-value" id="balanceValue">₦0.00</p>
+            <p class="summary-note"><span class="status-dot"></span> Income minus expenses</p>
+          </article>
+          <article class="summary-card">
+            <div class="summary-top"><span class="summary-label">Total income</span><span class="summary-icon income-icon" aria-hidden="true">↙</span></div>
+            <p class="summary-value" id="incomeValue">₦0.00</p>
+            <p class="summary-note">Money received</p>
+          </article>
+          <article class="summary-card">
+            <div class="summary-top"><span class="summary-label">Total expenses</span><span class="summary-icon expense-icon" aria-hidden="true">↗</span></div>
+            <p class="summary-value" id="expenseValue">₦0.00</p>
+            <p class="summary-note">Money spent</p>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel transaction-panel" id="transactions">
+            <div class="panel-heading">
+              <div><p class="eyebrow">ACTIVITY</p><h2>Recent transactions</h2></div>
+              <div class="panel-heading-actions"><span class="count-pill" id="transactionCount">0 records</span><button class="secondary-button" id="exportCsv" type="button">Export CSV</button></div>
+            </div>
+            <div class="transaction-toolbar">
+              <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search transactions" aria-label="Search transactions" /></label>
+              <div class="filter-tabs" role="group" aria-label="Filter transactions">
+                <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All</button>
+                <button class="filter-button" type="button" data-filter="income" aria-pressed="false">Income</button>
+                <button class="filter-button" type="button" data-filter="expense" aria-pressed="false">Expenses</button>
+              </div>
+            </div>
+            <div class="transaction-list" id="transactionList" aria-live="polite">
+              <div class="empty-state"><span class="empty-icon" aria-hidden="true">↗</span><strong>No transactions yet</strong><p>Add your first income or expense to see your money activity here.</p></div>
+            </div>
+          </article>
+
+          <aside class="right-column">
+            <article class="panel form-panel" id="addTransaction">
+              <div class="panel-heading"><div><p class="eyebrow">QUICK ENTRY</p><h2>Add transaction</h2></div><span class="form-spark" aria-hidden="true">✳</span></div>
+              <form id="transactionForm">
+                <div class="type-switch" role="group" aria-label="Transaction type">
+                  <button type="button" class="type-button active" data-type="expense" aria-pressed="true">− Expense</button>
+                  <button type="button" class="type-button" data-type="income" aria-pressed="false">＋ Income</button>
+                </div>
+                <input type="hidden" id="transactionType" value="expense" />
+                <label class="field-label" for="description">Description</label>
+                <input class="text-input" id="description" name="description" type="text" placeholder="e.g. Groceries, salary" maxlength="80" required />
+                <label class="field-label" for="amount">Amount <span class="field-hint">NGN (₦)</span></label>
+                <div class="amount-input-wrap"><span aria-hidden="true">₦</span><input id="amount" name="amount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="0.00" required /></div>
+                <div class="form-row">
+                  <div class="form-field"><label class="field-label" for="category">Category</label><select class="text-input" id="category" name="category" required><option value="Food & Dining">Food & Dining</option><option value="Transport">Transport</option><option value="Shopping">Shopping</option><option value="Bills">Bills</option><option value="Health">Health</option><option value="Salary">Salary</option><option value="Freelance">Freelance</option><option value="Business">Business</option><option value="Other">Other</option></select></div>
+                  <div class="form-field"><label class="field-label" for="date">Date</label><input class="text-input" id="date" name="date" type="date" required /></div>
+                </div>
+                <p class="form-error" id="formError" role="alert" hidden></p>
+                <button class="primary-button submit-button" type="submit">Save transaction <span aria-hidden="true">↗</span></button>
+                <p class="form-footnote"><span aria-hidden="true">⌑</span> Saved privately on this device</p>
+              </form>
+            </article>
+            <article class="panel insights-panel" id="spending">
+              <div class="panel-heading"><div><p class="eyebrow">WHERE IT GOES</p><h2>Expense breakdown</h2></div><span class="summary-icon expense-icon" aria-hidden="true">◔</span></div>
+              <div id="categoryBreakdown" class="category-breakdown"><div class="insight-empty">Your spending categories will appear here.</div></div>
+            </article>
+          </aside>
+        </section>
+        <footer class="page-footer"><span>Spendwise <span class="brand-dot">·</span> Personal finance, made clearer.</span><span>Data stays on this device</span></footer>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
