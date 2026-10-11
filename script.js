@@ -28,7 +28,8 @@
     theme: $("#darkModeToggle"),
     themeIcon: $("#themeIcon"),
     today: $("#todayLabel"),
-    toast: $("#toast")
+    toast: $("#toast"),
+    exportButton: $("#exportCsv")
   };
 
   const money = (value) => new Intl.NumberFormat("en-NG", {
@@ -128,6 +129,34 @@
         <button class="delete-button" type="button" data-delete="${escapeHTML(item.id)}" aria-label="Delete ${escapeHTML(item.description)}" title="Delete transaction">×</button>
       </article>`;
     }).join("");
+  }
+
+  function exportTransactions() {
+    if (!state.transactions.length) {
+      showToast("Add a transaction before exporting.");
+      return;
+    }
+    const rows = [
+      ["Date", "Type", "Description", "Category", "Amount (NGN)"],
+      ...[...state.transactions]
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .map((item) => [item.date, item.type, item.description, item.category, item.amount.toFixed(2)])
+    ];
+    const csv = rows.map((row) => row.map((value) => {
+      const safe = String(value).replace(/"/g, '""');
+      return /[",\\r\\n]/.test(safe) ? `"${safe}"` : safe;
+    }).join(",")).join("\\r\\n");
+    const blob = new Blob(["\\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `spendwise-transactions-${localDateString()}.csv`;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast("CSV backup prepared for download.");
   }
 
   function renderCategoryBreakdown() {
@@ -271,6 +300,7 @@
       if (button) handleDelete(button.dataset.delete);
     });
     els.theme.addEventListener("click", () => setTheme(!document.body.classList.contains("dark-mode")));
+    els.exportButton.addEventListener("click", exportTransactions);
     $("#jumpToForm").addEventListener("click", () => {
       $("#addTransaction").scrollIntoView({ behavior: "smooth", block: "start" });
       window.setTimeout(() => els.description.focus({ preventScroll: true }), 250);
