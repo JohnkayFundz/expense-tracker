@@ -1,0 +1,36 @@
+name: Web App Validation
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate static web app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify required app files
+        run: |
+          test -f index.html
+          test -f script.js
+          test -f style.css
+
+      - name: Check JavaScript syntax
+        run: node --check script.js
+
+      - name: Check patch whitespace
+        run: git diff --check
