@@ -144,9 +144,9 @@
     ];
     const csv = rows.map((row) => row.map((value) => {
       const safe = String(value).replace(/"/g, '""');
-      return /[",\\r\\n]/.test(safe) ? `"${safe}"` : safe;
-    }).join(",")).join("\\r\\n");
-    const blob = new Blob(["\\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
+      return /[",\r\n]/.test(safe) ? `"${safe}"` : safe;
+    }).join(",")).join("\r\n");
+    const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
