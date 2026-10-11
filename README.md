@@ -8,6 +8,7 @@ A responsive, mobile-friendly personal finance dashboard built with HTML, CSS, a
 - Add income or expense transactions with description, amount, category, and date
 - Search and filter transaction history
 - Delete transactions
+- Export all transactions to a CSV file for a personal backup or spreadsheet review
 - Automatic spending breakdown by category
 - Light and dark themes with a saved preference
 - Responsive layout for phones, tablets, and desktops
@@ -30,7 +31,7 @@ The project uses plain HTML, CSS, and JavaScript, so there is no package install
 
 ## Privacy
 
-Transactions are stored in this browser using `localStorage`. They are not sent to a server. Clearing browser storage or switching browsers/devices may remove or hide your saved transactions, so this version is intended for personal tracking on one device. Do not treat it as a bank account or official financial record.
+Transaction records are stored in this browser using `localStorage`; the app does not send transaction records to a backend. The page loads web fonts from Google Fonts when internet access is available. Use **Export CSV** to make a local backup. Clearing browser storage or switching browsers/devices may remove or hide saved transactions. This is a personal tracking tool, not a bank account or official financial record.
 
 ## Project files
 
