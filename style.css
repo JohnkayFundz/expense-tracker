@@ -82,6 +82,9 @@ h1 { font-size: clamp(23px, 2.2vw, 31px); line-height: 1.25; margin-bottom: 9px;
 .panel-heading .eyebrow { margin-bottom: 6px; }
 h2 { font-size: 16px; margin-bottom: 0; }
 .count-pill { background: var(--panel-soft); color: var(--muted); border: 1px solid var(--line); border-radius: 20px; padding: 6px 9px; font-size: 10px; white-space: nowrap; }
+.panel-heading-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 7px; }
+.secondary-button { min-height: 30px; padding: 0 10px; color: var(--green-dark); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.secondary-button:hover { background: var(--green-soft); }
 .transaction-toolbar { display: grid; gap: 12px; margin-bottom: 8px; }
 .search-box { display: flex; align-items: center; gap: 8px; padding: 0 11px; height: 38px; border: 1px solid var(--line); background: var(--panel-soft); border-radius: 9px; color: var(--muted); }
 .search-box > span { font-size: 21px; }
