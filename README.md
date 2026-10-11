@@ -1,68 +1,55 @@
-# 💰 Expense Tracker App
+# Spendwise — Expense Tracker
 
-A modern, responsive Expense Tracker web application built using **HTML, CSS, and Vanilla JavaScript**.  
-It allows users to track income, expenses, and balance in real time with persistent local storage.
+A responsive, mobile-friendly personal finance dashboard built with HTML, CSS, and vanilla JavaScript. Track income and expenses in Nigerian naira (NGN), understand your balance, and review spending categories.
 
----
+## Features
 
-## 🌐 Live Demo
+- Dashboard summary for total balance, income, and expenses
+- Add income or expense transactions with description, amount, category, and date
+- Search and filter transaction history
+- Delete transactions
+- Automatic spending breakdown by category
+- Light and dark themes with a saved preference
+- Responsive layout for phones, tablets, and desktops
+- Browser local storage for transactions and theme preferences
+- No account, backend, external API, or paid service required
 
-👉 [View Live Project](#)  
-*(Replace with your GitHub Pages link when deployed)*
+## Run locally
 
----
+1. Download or clone this repository.
+2. Open `index.html` in a modern browser.
 
-## 📸 Preview
+The project uses plain HTML, CSS, and JavaScript, so there is no package installation or build step.
 
-*(Add screenshots here after deployment)*
+## Deploy with GitHub Pages
 
-| Dashboard | Add Transaction |
-|----------|----------------|
-| ![Dashboard](./screenshots/dashboard.png) | ![Add](./screenshots/add.png) |
+1. Open the repository's **Settings → Pages**.
+2. Choose **Deploy from a branch**.
+3. Select the `main` branch and `/(root)`, then save.
+4. Wait for GitHub Pages to publish the site.
 
----
+## Privacy
 
-## 🚀 Features
+Transactions are stored in this browser using `localStorage`. They are not sent to a server. Clearing browser storage or switching browsers/devices may remove or hide your saved transactions, so this version is intended for personal tracking on one device. Do not treat it as a bank account or official financial record.
 
-- ➕ Add income and expense transactions
-- 🗑️ Delete transactions instantly
-- 💰 Real-time balance calculation
-- 📊 Income vs Expense tracking
-- 💾 Local storage persistence (data saved even after refresh)
-- 📱 Fully responsive design
-- ⚡ Fast and lightweight (no frameworks)
-
----
-
-## 🧠 What I Learned
-
-- DOM manipulation with JavaScript
-- Array methods (`map`, `filter`, `reduce`)
-- Event handling and form validation
-- LocalStorage for data persistence
-- Dynamic UI rendering
-- State management without frameworks
-
----
-
-## 🛠️ Tech Stack
-
-- HTML5
-- CSS3
-- JavaScript (ES6)
-
----
-
-## 📁 Project Structure
+## Project files
 
 ```text
 expense-tracker/
-│
-├── index.html
-├── CSS/
-│   └── style.css
-├── JavaScript/
-│   └── script.js
-├── screenshots/
+├── index.html   # Dashboard and transaction form
+├── style.css    # Responsive layout, themes, and components
+├── script.js    # Transaction logic, storage, and summaries
 ├── README.md
 └── LICENSE
+```
+
+## Technology
+
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
+- Browser localStorage
+
+## License
+
+MIT
