@@ -29,7 +29,7 @@
           <div class="privacy-card">
             <span class="privacy-icon" aria-hidden="true">⌁</span>
             <strong>Your money, your data</strong>
-            <p>Your transactions stay in this browser. Nothing is sent to a server.</p>
+            <p>Your transaction records stay in this browser. Export a CSV backup when you need one.</p>
           </div>
           <div class="profile">
             <span class="avatar" aria-hidden="true">JK</span>
@@ -79,7 +79,7 @@
           <article class="panel transaction-panel" id="transactions">
             <div class="panel-heading">
               <div><p class="eyebrow">ACTIVITY</p><h2>Recent transactions</h2></div>
-              <span class="count-pill" id="transactionCount">0 records</span>
+              <div class="panel-heading-actions"><span class="count-pill" id="transactionCount">0 records</span><button class="secondary-button" id="exportCsv" type="button">Export CSV</button></div>
             </div>
             <div class="transaction-toolbar">
               <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search transactions" aria-label="Search transactions" /></label>
